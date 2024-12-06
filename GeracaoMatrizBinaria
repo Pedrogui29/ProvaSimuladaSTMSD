@@ -1,0 +1,37 @@
+#include "stm32f1xx_hal.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
+void geraMatrizBinaria(uint8_t matriz[6][6], int *total) {
+    *total = 0;
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+            matriz[i][j] = rand() % 2;
+            *total += matriz[i][j];
+        }
+    }
+}
+
+int main(void) {
+    HAL_Init();
+
+    uint8_t matriz_binaria[6][6];
+    int totalUns;
+
+    geraMatrizBinaria(matriz_binaria, &totalUns);
+
+    printf("Matriz gerada:\n");
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+            printf("%d ", matriz_binaria[i][j]);
+        }
+        printf("\n");
+    }
+    printf("Total de 1s: %d\n", totalUns);
+
+    while (1) {
+    }
+}
