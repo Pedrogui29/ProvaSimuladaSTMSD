@@ -1,0 +1,33 @@
+#include "stm32f1xx_hal.h"
+#include <stdio.h>
+
+uint8_t codigo_barras[5][3] = {
+    {1, 0, 1},
+    {1, 1, 0},
+    {0, 0, 1},
+    {1, 0, 0},
+    {0, 1, 1}
+};
+
+uint16_t decodificaCodigoBarras(uint8_t matriz[5][3]) {
+    uint16_t resultado = 0;
+
+    for (int i = 0; i < 5; i++) {
+        uint16_t linhaDecimal = 0;
+        for (int j = 0; j < 3; j++) {
+            linhaDecimal = (linhaDecimal << 1) | matriz[i][j];
+        }
+        resultado += linhaDecimal;
+    }
+    return resultado;
+}
+
+int main(void) {
+    HAL_Init();
+
+    uint16_t resultado = decodificaCodigoBarras(codigo_barras);
+    printf("Resultado: %d\n", resultado);
+
+    while (1) {
+    }
+}
