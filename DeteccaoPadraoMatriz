@@ -1,0 +1,35 @@
+#include "stm32f1xx_hal.h"
+#include <stdio.h>
+
+uint8_t sensor[3][3] = {
+    {1, 1, 0},
+    {1, 1, 1},
+    {0, 1, 0}
+};
+
+uint8_t detectaPadrao(uint8_t matriz[3][3]) {
+    int somaSegunda = 0, somaOutras = 0;
+
+    for (int j = 0; j < 3; j++) {
+        somaSegunda += matriz[1][j];
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (i == 1) continue;
+        for (int j = 0; j < 3; j++) {
+            somaOutras += matriz[i][j];
+        }
+    }
+
+    return somaSegunda > somaOutras;
+}
+
+int main(void) {
+    HAL_Init();
+
+    uint8_t resultado = detectaPadrao(sensor);
+    printf("Padrão %s\n", resultado ? "detectado" : "não detectado");
+
+    while (1) {
+    }
+}
