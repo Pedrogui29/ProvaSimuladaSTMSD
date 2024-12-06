@@ -1,0 +1,42 @@
+#include "stm32f1xx_hal.h"
+#include <stdio.h>
+
+uint8_t acessos[4][4] = {
+    {1, 0, 1, 1},
+    {1, 1, 0, 1},
+    {0, 1, 1, 0},
+    {1, 1, 1, 1}
+};
+
+void analisaAcessos(uint8_t matriz[4][4], int *total, int *maiorSequencia) {
+    *total = 0;
+    *maiorSequencia = 0;
+
+    for (int i = 0; i < 4; i++) {
+        int sequenciaAtual = 0;
+        for (int j = 0; j < 4; j++) {
+            if (matriz[i][j] == 1) {
+                (*total)++;
+                sequenciaAtual++;
+                if (sequenciaAtual > *maiorSequencia) {
+                    *maiorSequencia = sequenciaAtual;
+                }
+            } else {
+                sequenciaAtual = 0;
+            }
+        }
+    }
+}
+
+int main(void) {
+    HAL_Init();
+
+    int totalSucessos, maiorSequencia;
+    analisaAcessos(acessos, &totalSucessos, &maiorSequencia);
+
+    printf("Total de sucessos: %d\n", totalSucessos);
+    printf("Maior sequência: %d\n", maiorSequencia);
+
+    while (1) {
+    }
+}
